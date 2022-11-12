@@ -7,7 +7,7 @@ return require('packer').startup(function(use)
     -- ПЛАГИНЫ ВНЕШНЕГО ВИДА
     -----------------------------------------------------------
 
-    -- Цветовая схема
+    -- Color schemes
     use 'ii14/onedark.nvim'
 
     --- Информационная строка внизу
@@ -18,7 +18,7 @@ return require('packer').startup(function(use)
       end,
     }
 
-    -- Табы вверху
+    -- Tabs
     use { 'akinsho/bufferline.nvim',
       tag = 'v3.*',
       requires = 'nvim-tree/nvim-web-devicons',
@@ -26,10 +26,9 @@ return require('packer').startup(function(use)
     }
 
 
-    -----------------------------------------------------------
-    -- НАВИГАЦИЯ
-    -----------------------------------------------------------
-    -- Файловый менеджер
+    -- Navigation
+
+    -- File namager
     use { 'nvim-tree/nvim-tree.lua',
       requires = 'nvim-tree/nvim-web-devicons',
       cmd = "NvimTreeToggle",
@@ -67,9 +66,7 @@ return require('packer').startup(function(use)
     use 'L3MON4D3/LuaSnip'
 
 
-    -----------------------------------------------------------
     -- HTML и CSS
-    -----------------------------------------------------------
     -- Подсвечивает закрывающий и откры. тэг. Если, где-то что-то не закрыто, то не подсвечивает.
     use 'idanarye/breeze.vim'
     -- Закрывает автоматом html и xml тэги. Пишешь <h1> и он автоматом закроется </h1>
@@ -107,6 +104,10 @@ return require('packer').startup(function(use)
     use 'cohama/lexima.vim'
     -- Линтер, работает для всех языков
     use 'dense-analysis/ale'
+
+    -- git changes colorization 
+    use { 'lewis6991/gitsigns.nvim' }
+
 
 end)
 

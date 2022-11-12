@@ -17,9 +17,7 @@ map('v', 't', '<Plug>(VTranslate)', {})
 map('n', '<C-a>', [[ <cmd>lua require('telescope.builtin').find_files()<cr> ]], default_opts)
 map('n', '<C-p>', [[ <cmd>lua require('telescope.builtin').buffers()<cr> ]], default_opts)
 
------------------------------------------------------------
--- Фн. клавиши по F1 .. F12
------------------------------------------------------------
+-- fn keys F1 .. F12
 -- По F1 очищаем последний поиск с подсветкой
 map('n', '<F1>', ':nohl<CR>', default_opts)
 -- shift + F1 = удалить пустые строки
@@ -43,3 +41,10 @@ map('n', '<F8>', ':TagbarToggle<CR>', default_opts)
 -- <F11> Проверка орфографии  для русского и английского языка
 map('n', '<F11>', ':set spell!<CR>', default_opts)
 map('i', '<F11>', '<C-O>:set spell!<CR>', default_opts)
+
+map('n', '<CS-d>', 'i<C-R>=strftime(\'%Y-%m-%d %H:%M:%S\')<CR>', default_opts)
+map('i', '<CS-D>', '<C-R>=strftime(\'%Y-%m-%d %H:%M:%S\')<CR>', default_opts)
+
+-- test mac full F13-F19 keyboard
+map('i', '<F15>', '<C-R>=strftime(\'%Y-%m-%d %H:%M:%S\')<CR>', default_opts)
+
