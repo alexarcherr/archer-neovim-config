@@ -9,6 +9,9 @@ return require('packer').startup(function(use)
 
     -- Color schemes
     use 'ii14/onedark.nvim'
+    use 'bluz71/vim-nightfly-colors'
+    use 'ellisonleao/gruvbox.nvim'  -- gruvbox port for neovim
+
 
     --- Информационная строка внизу
     use { 'nvim-lualine/lualine.nvim',
@@ -51,7 +54,16 @@ return require('packer').startup(function(use)
 
 
     -- Highlight, edit, and navigate code using a fast incremental parsing library
-    use 'nvim-treesitter/nvim-treesitter'
+    -- When nvim-treesitter updates, there might be breaking changes to corresponding parsers being used.
+    -- Make sure parsers are automatically updated whenever nvim-treesitter is installed/updated.
+use({
+    "nvim-treesitter/nvim-treesitter",
+    run = function()
+      local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
+      ts_update()
+    end,
+  })
+
     -- Collection of configurations for built-in LSP client
     use 'neovim/nvim-lspconfig'
     use 'williamboman/nvim-lsp-installer'

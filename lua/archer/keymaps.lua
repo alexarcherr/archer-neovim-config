@@ -35,7 +35,7 @@ map('n', '<S-F4>', [[<cmd>lua require('telescope.builtin').live_grep()<cr>]], de
 -- <F5> разные вариации нумераций строк, можно переключаться
 map('n', '<F5>', ':exec &nu==&rnu? "se nu!" : "se rnu!"<CR>', default_opts)
 -- <F6> дерево файлов.
-map('n', '<F6>', ':NvimTreeRefresh<CR>:NvimTreeToggle<CR>', default_opts)
+map('n', '<F6>', ':NvimTreeToggle<CR>NvimTreeRefresh<CR>', default_opts)
 -- <F8>  Показ дерева классов и функций, плагин majutsushi/tagbar
 map('n', '<F8>', ':TagbarToggle<CR>', default_opts)
 -- <F11> Проверка орфографии  для русского и английского языка

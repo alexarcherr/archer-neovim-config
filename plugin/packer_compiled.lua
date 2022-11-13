@@ -131,6 +131,11 @@ _G.packer_plugins = {
     path = "/Users/argon/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
+  ["gruvbox.nvim"] = {
+    loaded = true,
+    path = "/Users/argon/.local/share/nvim/site/pack/packer/start/gruvbox.nvim",
+    url = "https://github.com/ellisonleao/gruvbox.nvim"
+  },
   ["lexima.vim"] = {
     loaded = true,
     path = "/Users/argon/.local/share/nvim/site/pack/packer/start/lexima.vim",
@@ -226,6 +231,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/argon/.local/share/nvim/site/pack/packer/start/vim-css-color",
     url = "https://github.com/ap/vim-css-color"
+  },
+  ["vim-nightfly-colors"] = {
+    loaded = true,
+    path = "/Users/argon/.local/share/nvim/site/pack/packer/start/vim-nightfly-colors",
+    url = "https://github.com/bluz71/vim-nightfly-colors"
   },
   ["vim-plugin-ruscmd"] = {
     loaded = true,
