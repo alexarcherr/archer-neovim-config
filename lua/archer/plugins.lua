@@ -1,17 +1,44 @@
+-- Automatically install packer
+local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  PACKER_BOOTSTRAP = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  print("Installing packer close and reopen Neovim...")
+end
+
+-- Autocommand that reloads neovim whenever you save the plugins.lua file
+-- vim.cmd([[
+--   augroup packer_user_config
+--     autocmd!
+--     autocmd BufWritePost plugins.lua source <afile> | PackerSync
+--   augroup end
+-- ]])
+
+-- Use a protected call so we don't error out on first use
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+  return
+end
+
+-- Have packer use a popup window
+-- packer.init({
+--     display = {
+--       open_fn = function()
+--         return require('packer.util').float({ border = 'single' })
+--       end
+--     }
+--   }
+-- )
+
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
-    -----------------------------------------------------------
-    -- ПЛАГИНЫ ВНЕШНЕГО ВИДА
-    -----------------------------------------------------------
-
     -- Color schemes
     use 'ii14/onedark.nvim'
-    use 'bluz71/vim-nightfly-colors'
+    -- use 'bluz71/vim-nightfly-colors'
     use 'ellisonleao/gruvbox.nvim'  -- gruvbox port for neovim
-
+    -- use {'dracula/vim', as = 'dracula'}
 
     --- Информационная строка внизу
     use { 'nvim-lualine/lualine.nvim',
@@ -52,17 +79,17 @@ return require('packer').startup(function(use)
     -- LSP и автодополнялка
     -----------------------------------------------------------
 
-
     -- Highlight, edit, and navigate code using a fast incremental parsing library
     -- When nvim-treesitter updates, there might be breaking changes to corresponding parsers being used.
     -- Make sure parsers are automatically updated whenever nvim-treesitter is installed/updated.
-use({
-    "nvim-treesitter/nvim-treesitter",
-    run = function()
-      local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
-      ts_update()
-    end,
-  })
+    use({
+      "nvim-treesitter/nvim-treesitter",
+      run = function()
+        local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
+        ts_update()
+      end,
+      -- run = ':TSUpdate', opt = true 
+    })
 
     -- Collection of configurations for built-in LSP client
     use 'neovim/nvim-lspconfig'
@@ -93,18 +120,13 @@ use({
     use 'powerman/vim-plugin-ruscmd'
     -- 'Автоформатирование' кода для всех языков
     use 'Chiel92/vim-autoformat'
-    -- ]p - вставить на строку выше, [p - ниже
+    -- ]p - вставить на строку выше, [p - ниже, [<space> and ]<space> which create blank lines above and below the current line respectively
     use 'tpope/vim-unimpaired'
-    -- Переводчик рус - анг   л
-    use 'skanehira/translate.vim'
     --- popup окошки
     use 'nvim-lua/popup.nvim'
-    -- Обрамляет или снимает обрамление. Выдели слово, нажми S и набери <h1>
-    use 'tpope/vim-surround'
+    use 'kylechui/nvim-surround'
     -- Считает кол-во совпадений при поиске
     use 'google/vim-searchindex'
-    -- Может повторять через . vimsurround
-    use 'tpope/vim-repeat'
     -- Стартовая страница, если просто набрать vim в консоле
     use 'mhinz/vim-startify'
     -- Комментирует по gc все, вне зависимости от языка программирования
@@ -114,95 +136,46 @@ use({
     use 'mattn/emmet-vim'
     -- Закрывает автоматом скобки
     use 'cohama/lexima.vim'
-    -- Линтер, работает для всех языков
-    use 'dense-analysis/ale'
+
+    -- Check syntax in Vim asynchronously and fix files, with Language Server Protocol (LSP) support
+    -- Load on a combination of conditions: specific filetypes or commands
+    -- Also run code after load (see the "config" key)
+    use {
+      'dense-analysis/ale',
+      ft = {'sh', 'zsh', 'bash', 'c', 'cpp', 'cmake', 'html', 'markdown', 'racket', 'vim', 'tex'},
+      cmd = 'ALEEnable',
+      config = 'vim.cmd[[ALEEnable] ]'
+    }
+
 
     -- git changes colorization 
-    use { 'lewis6991/gitsigns.nvim' }
+    use { 'lewis6991/gitsigns.nvim',
+      requires = { 'nvim-lua/plenary.nvim' }
+    }
 
+    -- Fugitive for Git
+    use { 'tpope/vim-fugitive' }
+
+    use {'andymass/vim-matchup', event = 'VimEnter'}
+
+    -- for zettelkasten
+    use {'tibabit/vim-templates'}
 
 end)
 
 --[[
-return require('packer').startup(function()
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
-
-  use 'kyazdani42/nvim-web-devicons'
-
-  use 'scrooloose/nerdtree'
-
-  use '9mm/vim-closer'
-
-  use 'tibabit/vim-templates'
 
   use {'michal-h21/vim-zettel',
     requires = {'vimwiki/vimwiki','junegunn/fzf','junegunn/fzf.vim'}
   }
 
+  -- run code inide vim
   use {'jpalardy/vim-slime'}
 
   -- Load on specific commands
   use {'tpope/vim-dispatch', opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}}
 
-  -- Load on an autocommand event
-  use {'andymass/vim-matchup', event = 'VimEnter'}
-
-  -- Load on a combination of conditions: specific filetypes or commands
-  -- Also run code after load (see the "config" key)
-  use {
-    'w0rp/ale',
-    ft = {'sh', 'zsh', 'bash', 'c', 'cpp', 'cmake', 'html', 'markdown', 'racket', 'vim', 'tex'},
-    cmd = 'ALEEnable',
-    config = 'vim.cmd[[ALEEnable] ]'
-  }
-
-  -- Plugins can have dependencies on other plugins
-  use {
-    'haorenW1025/completion-nvim',
-    opt = true,
-    requires = {{'hrsh7th/vim-vsnip', opt = true}, {'hrsh7th/vim-vsnip-integ', opt = true}}
-  }
-
-  -- You can specify rocks in isolation
-  use_rocks 'penlight'
-  use_rocks {'lua-resty-http', 'lpeg'}
-
   -- Plugins can have post-install/update hooks
   use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
-
-  -- Post-install/update hook with neovim command
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', opt = true }
-
-  -- Post-install/update hook with call of vimscript function with argument
-  use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
-
-  -- Use specific branch, dependency and run lua file after load
-  use {
-    'glepnir/galaxyline.nvim',
-	branch = 'main', 
---	config = function() require('statusline') end,
-	requires = {'kyazdani42/nvim-web-devicons'}
-  }
-
-  -- Galaxyline Color
-  use {'Avimitin/nerd-galaxyline'}
-
-
-  -- Use dependency and run lua function after load
-  use {
-    'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
-    config = function() require('gitsigns').setup() end
-  }
-
-  -- You can specify multiple plugins in a single call
-  use {'tjdevries/colorbuddy.vim'}
-
-  -- You can alias plugin names
-  use {'dracula/vim', as = 'dracula'}
-
-  -- Fugitive for Git
-  use { 'tpope/vim-fugitive' }
-
-end)
+  
 ]]--

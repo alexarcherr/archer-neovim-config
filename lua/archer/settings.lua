@@ -4,13 +4,6 @@ vim.bo.expandtab = true
 vim.bo.shiftwidth = 2
 vim.bo.softtabstop = 2
 
---local cmd = vim.cmd             -- execute Vim commands
---local exec = vim.api.nvim_exec  -- execute Vimscript
---local g = vim.g                 -- global variables
---local opt = vim.opt             -- global/buffer/windows-scoped options
--- Направление перевода с русского на английский
-vim.g.translate_source = 'ru'
-vim.g.translate_target = 'en'
 -- Компактный вид у тагбара и Отк. сортировка по имени у тагбара
 vim.g.tagbar_compact = 1
 vim.g.tagbar_sort = 0
@@ -59,8 +52,8 @@ vim.cmd [[
 autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml,htmljinja setlocal shiftwidth=2 tabstop=2
 ]]
 -- С этой строкой отлично форматирует html файл, который содержит jinja2
-vim.cmd[[ autocmd BufNewFile,BufRead *.html set filetype=htmldjango ]]
-
+-- vim.cmd[[ autocmd BufNewFile,BufRead *.html set filetype=htmldjango ]]
+--
 -----------------------------------------------------------
 -- Полезные фишки
 -----------------------------------------------------------
