@@ -1,10 +1,10 @@
 -- Automatically install packer
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-  print("Installing packer close and reopen Neovim...")
-end
-
+-- local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+-- if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+--   PACKER_BOOTSTRAP = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+--   print("Installing packer close and reopen Neovim...")
+-- end
+--
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
 -- vim.cmd([[
 --   augroup packer_user_config
@@ -14,11 +14,11 @@ end
 -- ]])
 
 -- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
-if not status_ok then
-  return
-end
-
+-- local status_ok, packer = pcall(require, "packer")
+-- if not status_ok then
+--   return
+-- end
+--
 -- Have packer use a popup window
 -- packer.init({
 --     display = {
@@ -33,7 +33,10 @@ vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
-
+-- Auto run sync if first time install
+        if packer_bootstrap then
+            require('packer').sync()
+        end
     -- Color schemes
     use 'ii14/onedark.nvim'
     -- use 'bluz71/vim-nightfly-colors'
@@ -43,9 +46,7 @@ return require('packer').startup(function(use)
     --- Информационная строка внизу
     use { 'nvim-lualine/lualine.nvim',
       requires = 'nvim-tree/nvim-web-devicons',
-      config = function()
-        require('lualine').setup()
-      end,
+      config = function() require('lualine').setup {} end
     }
 
     -- Tabs
@@ -75,6 +76,15 @@ return require('packer').startup(function(use)
     }
 
 
+    use { 'phaazon/hop.nvim',
+      branch = 'v2', -- optional but strongly recommended
+      config = function()
+        -- you can configure Hop the way you like here; see :h hop-config
+      -- require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+        require'hop'.setup {}
+      end
+    }  
+
     -----------------------------------------------------------
     -- LSP и автодополнялка
     -----------------------------------------------------------
@@ -95,14 +105,25 @@ return require('packer').startup(function(use)
     use 'neovim/nvim-lspconfig'
     use 'williamboman/nvim-lsp-installer'
     -- Автодополнялка
-    use 'hrsh7th/nvim-cmp'
+    use { 'hrsh7th/nvim-cmp',
+      --config = function() require('config.cmp') end,
+    }
+
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
-    use 'saadparwaiz1/cmp_luasnip'
     --- Автодополнлялка к файловой системе
     use 'hrsh7th/cmp-path'
+
+
+
     -- Snippets plugin
-    use 'L3MON4D3/LuaSnip'
+
+    use 'saadparwaiz1/cmp_luasnip'
+
+    use { 'L3MON4D3/LuaSnip',
+      tag = "v<CurrentMajor>.*",
+      config = function() require("luasnip.loaders.from_snipmate").lazy_load() end,
+    }
 
 
     -- HTML и CSS
@@ -112,6 +133,13 @@ return require('packer').startup(function(use)
     use 'alvan/vim-closetag'
     -- Подсвечивает #ffffff
     use 'ap/vim-css-color'
+
+    -- sql
+    use {
+      'kristijanhusak/vim-dadbod-ui',
+      requires = { 'tpope/vim-dadbod' } 
+    }
+    use { 'kristijanhusak/vim-dadbod-completion' }
 
     -----------------------------------------------------------
     -- РАЗНОЕ
@@ -123,7 +151,7 @@ return require('packer').startup(function(use)
     -- ]p - вставить на строку выше, [p - ниже, [<space> and ]<space> which create blank lines above and below the current line respectively
     use 'tpope/vim-unimpaired'
     --- popup окошки
-    use 'nvim-lua/popup.nvim'
+    -- use 'nvim-lua/popup.nvim'
     use 'kylechui/nvim-surround'
     -- Считает кол-во совпадений при поиске
     use 'google/vim-searchindex'
@@ -161,9 +189,19 @@ return require('packer').startup(function(use)
     -- for zettelkasten
     use {'tibabit/vim-templates'}
 
-end)
+end
+
+-- config = {
+--         display = { open_fn = require('packer.util').float},
+--         --:compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua'
+--     }
+--
+
+)
 
 --[[
+
+https://github.com/christoomey/vim-tmux-navigator
 
   use {'michal-h21/vim-zettel',
     requires = {'vimwiki/vimwiki','junegunn/fzf','junegunn/fzf.vim'}
@@ -177,5 +215,7 @@ end)
 
   -- Plugins can have post-install/update hooks
   use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
+
+
   
 ]]--
