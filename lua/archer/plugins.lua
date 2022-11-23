@@ -1,34 +1,3 @@
--- Automatically install packer
--- local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
--- if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
---   PACKER_BOOTSTRAP = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
---   print("Installing packer close and reopen Neovim...")
--- end
---
--- Autocommand that reloads neovim whenever you save the plugins.lua file
--- vim.cmd([[
---   augroup packer_user_config
---     autocmd!
---     autocmd BufWritePost plugins.lua source <afile> | PackerSync
---   augroup end
--- ]])
-
--- Use a protected call so we don't error out on first use
--- local status_ok, packer = pcall(require, "packer")
--- if not status_ok then
---   return
--- end
---
--- Have packer use a popup window
--- packer.init({
---     display = {
---       open_fn = function()
---         return require('packer.util').float({ border = 'single' })
---       end
---     }
---   }
--- )
-
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
@@ -69,12 +38,15 @@ return require('packer').startup(function(use)
 
     -- Навигация внутри файла по классам и функциям
     use 'majutsushi/tagbar'
+
+
     -- Замена fzf и ack
     use { 'nvim-telescope/telescope.nvim',
       requires = 'nvim-lua/plenary.nvim',
       config = function() require'telescope'.setup {} end 
     }
 
+    use 'nvim-telescope/telescope-fzf-native.nvim' 
 
     use { 'phaazon/hop.nvim',
       branch = 'v2', -- optional but strongly recommended
@@ -101,26 +73,32 @@ return require('packer').startup(function(use)
       -- run = ':TSUpdate', opt = true 
     })
 
-    -- Collection of configurations for built-in LSP client
-    use 'neovim/nvim-lspconfig'
-    use 'williamboman/nvim-lsp-installer'
-    -- Автодополнялка
-    use { 'hrsh7th/nvim-cmp',
-      --config = function() require('config.cmp') end,
-    }
 
+    -- Managing & Installing Language Servers, Linters & Formatters
+    use 'williamboman/mason.nvim'
+    use 'williamboman/mason-lspconfig.nvim' -- Bridges gap b/w mason & lspconfig
+    use 'neovim/nvim-lspconfig'             -- Easy way to configure lsp servers
+    use 'williamboman/nvim-lsp-installer'
+    use 'glepnir/lspsaga.nvim'              -- Enhanced uis for lsp
+    use 'jose-elias-alvarez/null-ls.nvim'   -- Easy way to configure formatters & linters
+    use 'jayp0521/mason-null-ls.nvim'       -- Bridges gap b/w mason & null-ls
+    use 'MunifTanjim/prettier.nvim'
+
+    -- Autocompletion
+
+    use 'hrsh7th/nvim-cmp'          -- Completion plugin
     use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-buffer'
-    --- Автодополнлялка к файловой системе
-    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-buffer'        -- Completion source for text in current buffer
+    use 'hrsh7th/cmp-path'          -- Filesystem autocompletion
+
 
 
 
     -- Snippets plugin
 
-    use 'saadparwaiz1/cmp_luasnip'
+    use 'saadparwaiz1/cmp_luasnip'  -- Completion source for snippet autocomplete
 
-    use { 'L3MON4D3/LuaSnip',
+    use { 'L3MON4D3/LuaSnip',       -- Snippet engine
       tag = "v<CurrentMajor>.*",
       config = function() require("luasnip.loaders.from_snipmate").lazy_load() end,
     }
@@ -165,6 +143,8 @@ return require('packer').startup(function(use)
     -- Закрывает автоматом скобки
     use 'cohama/lexima.vim'
 
+    use 'tpope/vim-dotenv'
+
     -- Check syntax in Vim asynchronously and fix files, with Language Server Protocol (LSP) support
     -- Load on a combination of conditions: specific filetypes or commands
     -- Also run code after load (see the "config" key)
@@ -175,6 +155,7 @@ return require('packer').startup(function(use)
       config = 'vim.cmd[[ALEEnable] ]'
     }
 
+    -- Git plugins
 
     -- git changes colorization 
     use { 'lewis6991/gitsigns.nvim',
@@ -189,19 +170,14 @@ return require('packer').startup(function(use)
     -- for zettelkasten
     use {'tibabit/vim-templates'}
 
+    use 'christoomey/vim-tmux-navigator'            -- Navigating Between Neovim Windows and Tmux
+
+    use 'onsails/lspkind.nvim'                      -- adds vscode-like pictograms to neovim built-in lsp
+
 end
-
--- config = {
---         display = { open_fn = require('packer.util').float},
---         --:compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua'
---     }
---
-
 )
 
 --[[
-
-https://github.com/christoomey/vim-tmux-navigator
 
   use {'michal-h21/vim-zettel',
     requires = {'vimwiki/vimwiki','junegunn/fzf','junegunn/fzf.vim'}
@@ -217,5 +193,41 @@ https://github.com/christoomey/vim-tmux-navigator
   use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
 
 
-  
+PHP Plugins for test - https://thevaluable.dev/vim-php-ide/
+
+ctags generation
+    ludovicchabant/vim-gutentags
+Essentials plugins
+  bfredl/nvim-miniyank
+  moll/vim-bbye
+  itchyny/lightline.vim
+  tpope/vim-commentary
+  tpope/vim-abolish
+Project management plugins
+  amiorin/vim-project
+Syntax plugins
+  StanAngeloff/php.vim
+  stephpy/vim-php-cs-fixer
+Autocompletion plugins
+  ncm2/ncm2
+  phpactor/phpactor
+  phpactor/ncm2-phpactor
+Searching / replacing plugins & tools
+  https://github.com/junegunn/fzf
+  junegunn/fzf.vim
+  https://github.com/BurntSushi/ripgrep
+  https://github.com/wincent/ferret
+Code Quality plugin
+  neomake/neomake
+Refactoring / code styling plugins
+  adoy/vim-php-refactoring-toolbox
+  stephpy/vim-php-cs-fixer
+  phpactor/phpactor
+Outline plugin
+  majutsushi/tagbar
+  Debugger plugin
+  joonty/vdebug
+PHPDoc generation plugins
+  tobyS/vmustache
+  tobyS/pdv
 ]]--
