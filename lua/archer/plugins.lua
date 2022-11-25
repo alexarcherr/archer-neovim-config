@@ -230,4 +230,48 @@ Outline plugin
 PHPDoc generation plugins
   tobyS/vmustache
   tobyS/pdv
+
+-- https://habr.com/ru/company/avito/blog/682962/
+--
+-- " Language
+	Plug 'hrsh7th/cmp-cmdline'
+	Plug 'hrsh7th/nvim-cmp'
+	Plug 'j-hui/fidget.nvim'
+	Plug 'saadparwaiz1/cmp_luasnip'
+	Plug 'ray-x/lsp_signature.nvim'
+	
+	" Debug and test
+	Plug 'mfussenegger/nvim-dap'
+	Plug 'leoluz/nvim-dap-go'
+	Plug 'rcarriga/nvim-dap-ui'
+	Plug 'nvim-neotest/neotest'
+	Plug 'nvim-neotest/neotest-go'
+
+	" Base
+	Plug 'folke/todo-comments.nvim'
+	Plug 'akinsho/toggleterm.nvim'
+	Plug 'antoinemadec/FixCursorHold.nvim'
+
+	" View 
+	Plug 'nvim-lualine/lualine.nvim'
+	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+	Plug 'lukas-reineke/indent-blankline.nvim'
+	Plug 'Mofiqul/vscode.nvim'
+	
+	" Navigation
+	Plug 'karb94/neoscroll.nvim'
+   Plug 'akinsho/bufferline.nvim'
+	Plug 'preservim/tagbar'
+
+	" Git
+	Plug 'ThePrimeagen/git-worktree.nvim'
+	Plug 'TimUntersberger/neogit'
+
+	" Edit
+	Plug 'windwp/nvim-autopairs'
+	Plug 'numToStr/Comment.nvim'
+
+	" Misc
+	Plug 'renerocksai/telekasten.nvim'
+
 ]]--
