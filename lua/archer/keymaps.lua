@@ -18,9 +18,16 @@ map('i', '<C-s>', '<esc>:Autoformat<CR>:w<CR>', default_opts)
 -- Переключение вкладок с помощью TAB или shift-tab (akinsho/bufferline.nvim)
 map('n', '<Tab>', ':BufferLineCycleNext<CR>', default_opts)
 map('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', default_opts)
--- fzf
-map('n', '<C-a>', [[ <cmd>lua require('telescope.builtin').find_files()<cr> ]], default_opts)
-map('n', '<C-p>', [[ <cmd>lua require('telescope.builtin').buffers()<cr> ]], default_opts)
+
+-- telescope shortcuts
+local telescope = require('telescope.builtin')
+--vim.keymap.set('n', '<leader>ff', telescope.find_files, {})
+map('n', '<leader>ff', ':Telescope find_files find_command=rg,--smart-case,--files<CR>', default_opts)
+vim.keymap.set('n', '<leader>fg', telescope.live_grep, {})
+vim.keymap.set('n', '<leader>fb', telescope.buffers, {})
+vim.keymap.set('n', '<leader>fh', telescope.help_tags, {})
+vim.keymap.set('n', '<leader>fo', telescope.oldfiles, {})
+vim.keymap.set('n', '<F4>', telescope.oldfiles, {})-- search word under the cursor
 
 -- fn keys F1 .. F12
 -- По F1 очищаем последний поиск с подсветкой
@@ -29,12 +36,7 @@ map('n', '<F1>', ':nohl<CR>', default_opts)
 map('n', '<S-F1>', ':g/^$/d<CR>', default_opts)
 -- <F2> для временной вставки из буфера, чтобы отключить авто идент
 vim.o.pastetoggle='<F2>'
--- <F3> перечитать конфигурацию nvim Может не работать, если echo $TERM  xterm-256color
-map('n', '<F3>', ':so ~/.config/nvim/init.lua<CR>:so ~/.config/nvim/lua/plugins.lua<CR>:so ~/.config/nvim/lua/settings.lua<CR>:so ~/.config/nvim/lua/keymaps.lua<CR>', { noremap = true })
--- <F4> Поиск слова под курсором
-map('n', '<F4>', [[<cmd>lua require('telescope.builtin').grep_string()<cr>]], default_opts)
--- <S-F4> Поиск слова в модальном окошке
-map('n', '<S-F4>', [[<cmd>lua require('telescope.builtin').live_grep()<cr>]], default_opts)
+
 -- <F5> разные вариации нумераций строк, можно переключаться
 map('n', '<F5>', ':exec &nu==&rnu? "se nu!" : "se rnu!"<CR>', default_opts)
 -- <F6> дерево файлов.
@@ -50,11 +52,6 @@ map('i', '<CS-D>', '<C-R>=strftime(\'%Y-%m-%d %H:%M:%S\')<CR>', default_opts)
 
 -- test mac full F13-F19 keyboard
 map('i', '<F19>', '<C-R>=strftime(\'%Y-%m-%d %H:%M:%S\')<CR>', default_opts)
-
--- key_mapper('n', '<C-p>', ':lua require"telescope.builtin".find_files()<CR>')
--- key_mapper('n', '<leader>fs', ':lua require"telescope.builtin".live_grep()<CR>')
--- key_mapper('n', '<leader>fh', ':lua require"telescope.builtin".help_tags()<CR>')
--- key_mapper('n', '<leader>fb', ':lua require"telescope.builtin".buffers()<CR>')
 
 
 --

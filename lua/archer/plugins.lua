@@ -6,16 +6,19 @@ return require('packer').startup(function(use)
         if packer_bootstrap then
             require('packer').sync()
         end
+
     -- Color schemes
-    use 'ii14/onedark.nvim'
+    --use 'ii14/onedark.nvim'
     -- use 'bluz71/vim-nightfly-colors'
     use 'ellisonleao/gruvbox.nvim'  -- gruvbox port for neovim
     -- use {'dracula/vim', as = 'dracula'}
+    --use 'Mofiqul/dracula.nvim'
 
     --- Информационная строка внизу
     use { 'nvim-lualine/lualine.nvim',
       requires = 'nvim-tree/nvim-web-devicons',
-      config = function() require('lualine').setup {} end
+      config = function() 
+        require('lualine').setup {} end
     }
 
     -- Tabs
@@ -174,7 +177,12 @@ return require('packer').startup(function(use)
 
     use 'onsails/lspkind.nvim'                      -- adds vscode-like pictograms to neovim built-in lsp
 
-end
+    -- Zettelkasten support
+    use { 'renerocksai/telekasten.nvim',
+      requires = { 'renerocksai/calendar-vim' }
+    }
+
+  end
 )
 
 --[[
@@ -270,8 +278,5 @@ PHPDoc generation plugins
 	" Edit
 	Plug 'windwp/nvim-autopairs'
 	Plug 'numToStr/Comment.nvim'
-
-	" Misc
-	Plug 'renerocksai/telekasten.nvim'
 
 ]]--

@@ -81,3 +81,8 @@ vim.g.completion_matching_strategy_list = {'exact', 'substring'}
 -- Useful if there's a lot of camel case items
 vim.g.completion_matching_ignore_case = 1
 
+
+-- new command Utf8FromBytes convert utf8 bytecodes to chars 
+-- https://vi.stackexchange.com/questions/2299/how-to-translate-unicode-escape-sequences-to-the-unicode-character
+vim.cmd [[command -range Utf8FromBytes s/\\u\(\x\{4\}\)/\=nr2char('0x'.submatch(1),1)/g]]
+
